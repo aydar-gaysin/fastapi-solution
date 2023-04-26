@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 from redis.asyncio import Redis
 
+from api.v1 import films
 from core import config
 from core.logger import LOGGING
 from db import elastic
@@ -32,6 +33,8 @@ async def shutdown():
     await redis.redis.close()
     await elastic.es.close()
 
+
+app.include_router(films.router, prefix='/api/v1/films', tags=['films'])
 
 if __name__ == '__main__':
     # Приложение может запускаться командой
